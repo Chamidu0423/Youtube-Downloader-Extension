@@ -11,8 +11,16 @@
       <img src="icon.png" class="logo" alt="logo" style="border-radius: 20px;">
       <h1>Nalgeon <span class="highlight">YT Saver</span></h1>
     </div>
+
+    <div class="lang-container">
+      <select id="langSelect" class="lang-dropdown">
+        <option value="en">English</option>
+        <option value="si">සිංහල</option>
+        <option value="ta">தமிழ்</option>
+      </select>
+    </div>
     
-    <p class="desc">Select your preferred downloader:</p>
+    <p id="descText" class="desc">Select your preferred downloader:</p>
     
     <select id="serviceSelect" class="dropdown">
       <option value="yout">Yout.com (Fast & Clean)</option> 
@@ -25,7 +33,7 @@
     </button>
     
     <div id="message" class="hidden"></div>
-    <div class="footer">Powered by Nalgeon</div>
+    <div id="footerText" class="footer">Powered by Nalgeon</div>
   </div>
   <script src="popup.js"></script>
 </body>
