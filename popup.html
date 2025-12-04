@@ -8,18 +8,23 @@
 <body>
   <div class="card">
     <div class="header">
-      <img src="icon.png" class="logo" alt="logo">
+      <img src="icon.png" class="logo" alt="logo" style="border-radius: 20px;">
       <h1>Nalgeon <span class="highlight">YT Saver</span></h1>
     </div>
     
-    <p class="desc">Download High Quality Video & Audio</p>
+    <p class="desc">Select your preferred downloader:</p>
+    
+    <select id="serviceSelect" class="dropdown">
+      <option value="yout">Yout.com (Fast & Clean)</option> 
+      <option value="ss">SaveFrom (Classic)</option>
+      <option value="vd">VDYouTube (Alternative)</option>
+    </select>
     
     <button id="downloadBtn" class="download-btn">
-      DOWNLOAD NOW
+      DOWNLOAD VIDEO
     </button>
     
     <div id="message" class="hidden"></div>
-    
     <div class="footer">Powered by Nalgeon</div>
   </div>
   <script src="popup.js"></script>
