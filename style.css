@@ -10,6 +10,7 @@ body {
   padding: 25px;
   background: linear-gradient(145deg, #1e1e1e, #252525);
   text-align: center;
+  position: relative;
 }
 
 .header {
@@ -82,7 +83,6 @@ h1 {
 }
 
 .download-btn:hover {
-  transform: translateY(-2px);
   box-shadow: 0 6px 20px rgba(255, 59, 59, 0.5);
   background: linear-gradient(90deg, #ff2020, #ff5252);
 }
@@ -111,6 +111,26 @@ h1 {
   color: #444;
   text-transform: uppercase;
   letter-spacing: 1px;
+}
+
+.contact-link {
+  position: absolute;
+  right: 12px;
+  top: 6px;
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.18);
+  text-decoration: none;
+  padding: 2px 6px;
+  border-radius: 4px;
+  background: transparent;
+  border: none;
+  z-index: 10;
+  transition: color 0.2s ease, opacity 0.2s ease;
+}
+
+.contact-link:hover {
+  color: rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.02);
 }
 
 .lang-container {

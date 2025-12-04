@@ -3,19 +3,23 @@ const translations = {
     desc: "Select your preferred downloader:",
     btn: "DOWNLOAD VIDEO",
     err: "Please open a YouTube video first!",
-    footer: "Powered by Nalgeon"
+    footer: "Powered by Nalgeon",
+    contact: "Contact Developer"
   },
   si: {
     desc: "ඔබේ ඩවුන්ලෝඩරය තෝරන්න:",
     btn: "වීඩියෝව බාගත කරන්න",
     err: "කරුණාකර පළමුව YouTube වීඩියෝවක් විවෘත කරන්න!",
-    footer: "Nalgeon මගින් බලගැන්වේ"
+    footer: "Nalgeon මගින් බලගැන්වේ",
+    contact: "සංවර්ධකයා අමතන්න"
   },
   ta: {
     desc: "பதிவிறக்கியைத் தேர்ந்தெடுக்கவும்:",
     btn: "வீடியோவைப் பதிவிறக்கு",
     err: "முதலில் YouTube வீடியோவைத் திறக்கவும்!",
     footer: "Nalgeon ஆல் இயக்கப்படுகிறது"
+    ,
+    contact: "டெவலப்பரை தொடர்பு கொள்ளவும்"
   }
 };
 
@@ -24,19 +28,27 @@ const descText = document.getElementById('descText');
 const downloadBtn = document.getElementById('downloadBtn');
 const footerText = document.getElementById('footerText');
 const messageDiv = document.getElementById('message');
+const contactLink = document.getElementById('contactLink');
 
-langSelect.addEventListener('change', () => {
+const setLanguageStrings = () => {
   const lang = langSelect.value;
   const t = translations[lang];
 
   descText.textContent = t.desc;
   downloadBtn.textContent = t.btn;
   footerText.textContent = t.footer;
-  
+  contactLink.textContent = t.contact || 'Contact Developer';
+  contactLink.href = 'https://chamidu-dilshaninfo.web.app/';
+
   if (!messageDiv.classList.contains('hidden')) {
     messageDiv.textContent = t.err;
   }
-});
+};
+
+langSelect.addEventListener('change', setLanguageStrings);
+
+// initialize UI with selected language strings
+setLanguageStrings();
 
 downloadBtn.addEventListener('click', () => {
   chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
