@@ -1,48 +1,71 @@
 body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  width: 300px;
-  background-color: #f9f9f9;
   margin: 0;
-  padding: 0;
+  width: 320px;
+  background-color: #121212;
+  font-family: 'Inter', sans-serif;
+  color: white;
 }
 
-.container {
-  padding: 20px;
+.card {
+  padding: 25px;
+  background: linear-gradient(145deg, #1e1e1e, #252525);
   text-align: center;
 }
 
-h2 {
-  color: #333;
-  font-size: 18px;
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
   margin-bottom: 5px;
 }
 
-p {
-  color: #666;
-  font-size: 12px;
-  margin-bottom: 20px;
+.logo {
+  width: 32px;
+  height: 32px;
 }
 
-button {
-  background-color: #ff0000; /* YouTube Red */
-  color: white;
+h1 {
+  font-size: 20px;
+  font-weight: 600;
+  margin: 0;
+  letter-spacing: -0.5px;
+}
+
+.highlight {
+  color: #ff3b3b; 
+}
+
+.desc {
+  font-size: 13px;
+  color: #888;
+  margin-top: 5px;
+  margin-bottom: 25px;
+}
+
+.download-btn {
+  background: linear-gradient(90deg, #ff3b3b, #ff6b6b);
   border: none;
-  padding: 12px 24px;
-  font-size: 16px;
-  font-weight: bold;
-  border-radius: 8px;
-  cursor: pointer;
+  padding: 14px;
   width: 100%;
-  transition: background-color 0.3s ease, transform 0.1s;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  border-radius: 12px;
+  color: white;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(255, 59, 59, 0.3);
 }
 
-button:hover {
-  background-color: #cc0000;
+.download-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 59, 59, 0.5);
+  background: linear-gradient(90deg, #ff2020, #ff5252);
 }
 
-button:active {
-  transform: scale(0.98);
+.download-btn:active {
+  transform: translateY(1px);
 }
 
 .hidden {
@@ -51,9 +74,18 @@ button:active {
 
 #message {
   margin-top: 15px;
-  font-size: 13px;
-  color: #d32f2f;
-  background: #ffebee;
-  padding: 8px;
-  border-radius: 4px;
+  background: rgba(255, 59, 59, 0.1);
+  color: #ff6b6b;
+  padding: 10px;
+  border-radius: 8px;
+  font-size: 12px;
+  border: 1px solid rgba(255, 59, 59, 0.2);
+}
+
+.footer {
+  margin-top: 25px;
+  font-size: 10px;
+  color: #444;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }

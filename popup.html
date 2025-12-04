@@ -3,15 +3,24 @@
 <head>
   <meta charset="UTF-8">
   <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body>
-  <div class="container">
-    <h2>YouTube Downloader</h2>
-    <p>Open a video and click below</p>
+  <div class="card">
+    <div class="header">
+      <img src="icon.png" class="logo" alt="logo">
+      <h1>Nalgeon <span class="highlight">YT Saver</span></h1>
+    </div>
     
-    <button id="downloadBtn">Download Video</button>
+    <p class="desc">Download High Quality Video & Audio</p>
+    
+    <button id="downloadBtn" class="download-btn">
+      DOWNLOAD NOW
+    </button>
     
     <div id="message" class="hidden"></div>
+    
+    <div class="footer">Powered by Nalgeon</div>
   </div>
   <script src="popup.js"></script>
 </body>
