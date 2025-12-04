@@ -1,0 +1,22 @@
+{
+  "manifest_version": 3,
+  "name": "Nalgeon YT Saver",
+  "version": "1.0",
+  "description": "Download YouTube videos easily.",
+  "permissions": ["activeTab"],
+  
+  "icons": { 
+    "16": "icon.png",
+    "48": "icon.png",
+    "128": "icon.png"
+  },
+
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icon.png", 
+      "48": "icon.png",
+      "128": "icon.png"
+    }
+  }
+}
