@@ -91,6 +91,21 @@ h1 {
   transform: translateY(1px);
 }
 
+.download-btn.disabled,
+.download-btn[disabled] {
+  background: #5a5a5a;
+  color: #e6e6e6;
+  box-shadow: none;
+  cursor: not-allowed;
+  transform: none;
+  opacity: 0.9;
+}
+.download-btn.disabled:hover,
+.download-btn[disabled]:hover {
+  box-shadow: none;
+  background: #5a5a5a;
+}
+
 .hidden {
   display: none;
 }
