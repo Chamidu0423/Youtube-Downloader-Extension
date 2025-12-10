@@ -5,7 +5,16 @@ const translations = {
     btnNoVideo: "No YT video on current tab",
     err: "Please open a YouTube video first!",
     footer: "Powered by Nalgeon",
-    contact: "Contact Developer"
+    contact: "Contact Developer",
+    settings: "Settings",
+    language: "Language",
+    enableDownload: "Enable Download Button",
+    downloadsDisabled: "Downloads are disabled in settings",
+    activationKey: "Activation Key",
+    activate: "Activate",
+    invalidKey: "Invalid activation key",
+    activated: "Successfully activated!",
+    active: "Active"
   },
   si: {
     desc: "ඔබේ ඩවුන්ලෝඩරය තෝරන්න:",
@@ -13,29 +22,103 @@ const translations = {
     btnNoVideo: "මෙම ටැබයේ YouTube වීඩියෝවක් නොමැත",
     err: "කරුණාකර පළමුව YouTube වීඩියෝවක් විවෘත කරන්න!",
     footer: "Nalgeon මගින් බලගැන්වේ",
-    contact: "සංවර්ධකයා අමතන්න"
+    contact: "සංවර්ධකයා අමතන්න",
+    settings: "සැකසීම්",
+    language: "භාෂාව",
+    enableDownload: "බාගත කිරීම් බටනය සක්‍රිය කරන්න",
+    downloadsDisabled: "සැකසීම් වලින් බාගත කිරීම් අක්‍රිය කර ඇත",
+    activationKey: "සක්‍රිය කිරීම් යතුර",
+    activate: "සක්‍රිය කරන්න",
+    invalidKey: "වලංගු නොවන සක්‍රිය කිරීම් යතුර",
+    activated: "සාර්ථකව සක්‍රිය කරන ලදී!",
+    active: "සක්‍රියයි"
   },
   ta: {
     desc: "பதிவிறக்கியைத் தேர்ந்தெடுக்கவும்:",
     btn: "வீடியோவைப் பதிவிறக்கு",
     err: "முதலில் YouTube வீடியோவைத் திறக்கவும்!",
-    footer: "Nalgeon ஆல் இயக்கப்படுகிறது"
-    ,
-    contact: "டெவலப்பரை தொடர்பு கொள்ளவும்"
-    ,
-    btnNoVideo: "தற்போதைய டேபில் YouTube வீடியோ இல்லை"
+    footer: "Nalgeon ஆல் இயக்கப்படுகிறது",
+    contact: "டெவலப்பரை தொடர்பு கொள்ளவும்",
+    btnNoVideo: "தற்போதைய டேபில் YouTube வீடியோ இல்லை",
+    settings: "அமைப்புகள்",
+    language: "மொழி",
+    enableDownload: "பதிவிறக்க பொத்தானை இயக்கு",
+    downloadsDisabled: "அமைப்புகளில் பதிவிறக்கங்கள் முடக்கப்பட்டுள்ளன",
+    activationKey: "செயல்படுத்தும் விசை",
+    activate: "செயல்படுத்து",
+    invalidKey: "தவறான செயல்படுத்தும் விசை",
+    activated: "வெற்றிகரமாக செயல்படுத்தப்பட்டது!",
+    active: "செயலில்"
   }
 };
 
-const langSelect = document.getElementById('langSelect');
 const descText = document.getElementById('descText');
 const downloadBtn = document.getElementById('downloadBtn');
 const footerText = document.getElementById('footerText');
 const messageDiv = document.getElementById('message');
 const contactLink = document.getElementById('contactLink');
+const settingsBtn = document.getElementById('settingsBtn');
+const backBtn = document.getElementById('backBtn');
+const mainScreen = document.getElementById('mainScreen');
+const settingsScreen = document.getElementById('settingsScreen');
+const settingsLangSelect = document.getElementById('settingsLangSelect');
+const settingsTitle = document.querySelector('.settings-header h2');
+const languageLabel = document.querySelector('.setting-label');
+const enableDownloadToggle = document.getElementById('enableDownloadToggle');
+const enableDownloadLabel = document.querySelector('label[for="enableDownloadToggle"]');
+const activationKeyInput = document.getElementById('activationKey');
+const activateBtn = document.getElementById('activateBtn');
+const activationLabel = document.getElementById('activationLabel');
+const activatedAnimation = document.getElementById('activatedAnimation');
+const activationControls = document.getElementById('activationControls');
+const activationError = document.getElementById('activationError');
+
+let currentLang = 'en';
+let downloadEnabled = false;
+let isActivated = false;
+
+function loadSettings() {
+  if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.local) {
+    chrome.storage.local.get(['language', 'downloadEnabled', 'isActivated'], (result) => {
+      if (result.language) {
+        currentLang = result.language;
+      }
+      if (typeof result.downloadEnabled !== 'undefined') {
+        downloadEnabled = result.downloadEnabled;
+      }
+      if (typeof result.isActivated !== 'undefined') {
+        isActivated = result.isActivated;
+      }
+      
+      settingsLangSelect.value = currentLang;
+      enableDownloadToggle.checked = downloadEnabled;
+      if (isActivated) {
+        enableDownloadToggle.disabled = false;
+        activationControls.style.display = 'none';
+        if (activatedAnimation) activatedAnimation.style.display = 'inline-block';
+        activationLabel.textContent = translations[currentLang].active || 'Active';
+      }
+      setLanguageStrings();
+      updateDownloadButtonState();
+    });
+  } else {
+    setLanguageStrings();
+    updateDownloadButtonState();
+  }
+}
+
+function saveSettings() {
+  if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.local) {
+    chrome.storage.local.set({
+      language: currentLang,
+      downloadEnabled: downloadEnabled,
+      isActivated: isActivated
+    });
+  }
+}
 
 const setLanguageStrings = () => {
-  const lang = langSelect.value;
+  const lang = currentLang;
   const t = translations[lang];
 
   descText.textContent = t.desc;
@@ -44,14 +127,95 @@ const setLanguageStrings = () => {
   contactLink.textContent = t.contact || 'Contact Developer';
   contactLink.href = 'https://chamidu-dilshaninfo.web.app/';
 
+  if (settingsTitle) settingsTitle.textContent = t.settings;
+  if (languageLabel) languageLabel.textContent = t.language;
+  if (enableDownloadLabel) enableDownloadLabel.textContent = t.enableDownload;
+  if (activationKeyInput && activationKeyInput.placeholder) activationKeyInput.placeholder = t.activationKey;
+  if (activateBtn) activateBtn.textContent = t.activate;
+  if (activationLabel && !isActivated) activationLabel.textContent = t.activationKey;
+
   if (!messageDiv.classList.contains('hidden')) {
     messageDiv.textContent = t.err;
   }
 };
 
-langSelect.addEventListener('change', setLanguageStrings);
+settingsBtn.addEventListener('click', () => {
+  mainScreen.classList.add('hidden');
+  settingsScreen.classList.remove('hidden');
+  settingsLangSelect.value = currentLang;
+});
 
-setLanguageStrings();
+backBtn.addEventListener('click', () => {
+  settingsScreen.classList.add('hidden');
+  mainScreen.classList.remove('hidden');
+});
+
+settingsLangSelect.addEventListener('change', () => {
+  currentLang = settingsLangSelect.value;
+  setLanguageStrings();
+  updateDownloadButtonState();
+  saveSettings();
+});
+
+enableDownloadToggle.addEventListener('change', () => {
+  downloadEnabled = enableDownloadToggle.checked;
+  updateDownloadButtonState();
+  saveSettings();
+});
+
+const showActivationError = (text) => {
+  if (!activationError) return;
+  activationError.textContent = text;
+  activationError.classList.remove('hidden');
+};
+
+const hideActivationError = () => {
+  if (!activationError) return;
+  activationError.classList.add('hidden');
+};
+
+activationKeyInput.addEventListener('input', () => {
+  hideActivationError();
+});
+
+activateBtn.addEventListener('click', () => {
+  const enteredKey = activationKeyInput.value.trim();
+  const activationPrefix = 'NLG-YTDX-EXT2-';
+  const validActivation = new RegExp(`^${activationPrefix}[0-9A-Za-z]{4}$`);
+  
+  if (validActivation.test(enteredKey)) {
+    hideActivationError();
+    isActivated = true;
+    enableDownloadToggle.disabled = false;
+    activationControls.style.display = 'none';
+    if (activatedAnimation) activatedAnimation.style.display = 'inline-block';
+    activationLabel.textContent = translations[currentLang].active || 'Active';
+    saveSettings();
+    
+    messageDiv.textContent = translations[currentLang].activated;
+    messageDiv.classList.remove('hidden');
+    messageDiv.style.background = 'rgba(59, 255, 59, 0.1)';
+    messageDiv.style.color = '#6bff6b';
+    messageDiv.style.border = '1px solid rgba(59, 255, 59, 0.2)';
+    
+    setTimeout(() => {
+      messageDiv.classList.add('hidden');
+    }, 3000);
+  } else {
+    showActivationError(translations[currentLang].invalidKey);
+    messageDiv.textContent = translations[currentLang].invalidKey;
+    messageDiv.classList.remove('hidden');
+    messageDiv.style.background = 'rgba(255, 59, 59, 0.1)';
+    messageDiv.style.color = '#ff6b6b';
+    messageDiv.style.border = '1px solid rgba(255, 59, 59, 0.2)';
+    
+    setTimeout(() => {
+      messageDiv.classList.add('hidden');
+    }, 3000);
+  }
+});
+
+loadSettings();
 
 let isYTVideoOnTab = false;
 
@@ -75,7 +239,7 @@ function isYouTubeVideo(url) {
 }
 
 function updateDownloadButtonState() {
-  const lang = langSelect.value;
+  const lang = currentLang;
   const t = translations[lang];
   isYTVideoOnTab = false;
   if (typeof chrome !== 'undefined' && chrome.tabs && chrome.tabs.query) {
@@ -86,8 +250,15 @@ function updateDownloadButtonState() {
         const url = tabs[0].url || '';
         isYTVideoOnTab = isYouTubeVideo(url);
       }
-      if (!isYTVideoOnTab) {
-        downloadBtn.textContent = t.btnNoVideo || 'No YT video on current tab';
+      
+      const shouldDisable = !isYTVideoOnTab || !downloadEnabled;
+      
+      if (shouldDisable) {
+        if (!downloadEnabled) {
+          downloadBtn.textContent = translations[lang].downloadsDisabled;
+        } else {
+          downloadBtn.textContent = t.btnNoVideo || 'No YT video on current tab';
+        }
         downloadBtn.classList.add('disabled');
         downloadBtn.setAttribute('disabled', 'disabled');
         messageDiv.classList.add('hidden');
@@ -99,23 +270,30 @@ function updateDownloadButtonState() {
     });
   } else {
     isYTVideoOnTab = false;
-    downloadBtn.textContent = t.btnNoVideo || 'No YT video on current tab';
-    downloadBtn.classList.add('disabled');
-    downloadBtn.setAttribute('disabled', 'disabled');
+    const shouldDisable = !downloadEnabled;
+    if (shouldDisable) {
+      downloadBtn.textContent = translations[lang].downloadsDisabled;
+      downloadBtn.classList.add('disabled');
+      downloadBtn.setAttribute('disabled', 'disabled');
+    } else {
+      downloadBtn.textContent = t.btnNoVideo || 'No YT video on current tab';
+      downloadBtn.classList.add('disabled');
+      downloadBtn.setAttribute('disabled', 'disabled');
+    }
   }
 }
-
-langSelect.addEventListener('change', () => {
-  setLanguageStrings();
-  updateDownloadButtonState();
-});
 
 updateDownloadButtonState();
 
 downloadBtn.addEventListener('click', () => {
-  const currentLang = langSelect.value;
+  const currentLangValue = currentLang;
+  if (!downloadEnabled) {
+    messageDiv.textContent = translations[currentLangValue].downloadsDisabled;
+    messageDiv.classList.remove('hidden');
+    return;
+  }
   if (!isYTVideoOnTab) {
-    messageDiv.textContent = translations[currentLang].err;
+    messageDiv.textContent = translations[currentLangValue].err;
     messageDiv.classList.remove('hidden');
     return;
   }

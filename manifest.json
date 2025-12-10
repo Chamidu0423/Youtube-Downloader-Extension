@@ -3,7 +3,7 @@
   "name": "Nalgeon YT Saver",
   "version": "1.0",
   "description": "Download YouTube videos easily.",
-  "permissions": ["activeTab"],
+  "permissions": ["activeTab", "storage"],
   
   "icons": { 
     "16": "icon.png",
