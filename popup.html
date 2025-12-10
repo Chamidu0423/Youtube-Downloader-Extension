@@ -10,17 +10,13 @@
     <div class="header">
       <img src="icon.png" class="logo" alt="logo" style="border-radius: 20px;">
       <h1>Nalgeon <span class="highlight">YT Saver</span></h1>
+      <button id="settingsBtn" class="settings-btn" aria-label="Settings">
+        <img src="settings.png" alt="Settings" width="20" height="20">
+      </button>
     </div>
 
-    <div class="lang-container">
-      <select id="langSelect" class="lang-dropdown">
-        <option value="en">English</option>
-        <option value="si">සිංහල</option>
-        <option value="ta">தமிழ்</option>
-      </select>
-    </div>
-    
-    <p id="descText" class="desc">Select your preferred downloader:</p>
+    <div id="mainScreen" class="screen">
+      <p id="descText" class="desc">Select your preferred downloader:</p>
     
     <select id="serviceSelect" class="dropdown">
       <option value="yout">Yout.com (Fast & Clean)</option> 
@@ -32,8 +28,60 @@
       DOWNLOAD VIDEO
     </button>
     
-    <div id="message" class="hidden"></div>
-    <div id="footerText" class="footer">Powered by Nalgeon</div>
+      <div id="message" class="hidden"></div>
+      <div id="footerText" class="footer">Powered by Nalgeon</div>
+    </div>
+
+    <div id="settingsScreen" class="screen hidden">
+      <div class="settings-header">
+        <button id="backBtn" class="back-btn" aria-label="Back">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M19 12H5M12 19L5 12L12 5" stroke="#888" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+        <h2>Settings</h2>
+      </div>
+      
+      <div class="settings-content">
+        <div class="setting-item">
+          <label for="settingsLangSelect" class="setting-label">Language</label>
+          <select id="settingsLangSelect" class="settings-dropdown">
+            <option value="en">English</option>
+            <option value="si">සිංහල</option>
+            <option value="ta">தமிழ்</option>
+          </select>
+        </div>
+        
+        <div class="setting-section">
+          <div class="setting-item">
+            <div class="activation-header">
+              <label id="activationLabel" for="activationKey" class="setting-label">Activation Key</label>
+              <div id="activatedAnimation" class="activated-animation" style="display: none;" aria-label="Activated">
+                <svg viewBox="0 0 400 400" role="presentation" focusable="false">
+                  <circle class="activated-circle" cx="200" cy="200" r="190"></circle>
+                  <polyline class="activated-tick" points="88,214 173,284 304,138"></polyline>
+                </svg>
+              </div>
+            </div>
+            <div id="activationError" class="activation-error hidden" role="alert" aria-live="polite"></div>
+            <div id="activationControls" class="activation-row">
+              <input type="text" id="activationKey" class="activation-input" placeholder="Enter activation key">
+              <button id="activateBtn" class="activate-btn">Activate</button>
+            </div>
+          </div>
+          
+          <div class="setting-item">
+            <div class="setting-row">
+              <label for="enableDownloadToggle" class="setting-label">Enable Download Button</label>
+              <label class="toggle-switch">
+                <input type="checkbox" id="enableDownloadToggle" disabled>
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
     <a id="contactLink" class="contact-link" href="https://chamidu-dilshaninfo.web.app/" target="_blank" rel="noopener noreferrer" aria-label="Contact Developer">Contact Developer</a>
   </div>
   <script src="popup.js"></script>
