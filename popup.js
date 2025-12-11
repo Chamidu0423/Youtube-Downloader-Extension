@@ -8,7 +8,8 @@ const translations = {
     contact: "Contact Developer",
     settings: "Settings",
     language: "Language",
-    enableDownload: "Enable Download Button",
+    enableDownload: "Enable Popup Button",
+    enableInVideo: "Show Button under Video",
     downloadsDisabled: "Downloads are disabled in settings",
     activationKey: "Activation Key",
     activate: "Activate",
@@ -25,7 +26,8 @@ const translations = {
     contact: "සංවර්ධකයා අමතන්න",
     settings: "සැකසීම්",
     language: "භාෂාව",
-    enableDownload: "බාගත කිරීම් බටනය සක්‍රිය කරන්න",
+    enableDownload: "Popup බටනය සක්‍රිය කරන්න",
+    enableInVideo: "වීඩියෝව යට බටනය පෙන්වන්න",
     downloadsDisabled: "සැකසීම් වලින් බාගත කිරීම් අක්‍රිය කර ඇත",
     activationKey: "සක්‍රිය කිරීම් යතුර",
     activate: "සක්‍රිය කරන්න",
@@ -42,7 +44,8 @@ const translations = {
     btnNoVideo: "தற்போதைய டேபில் YouTube வீடியோ இல்லை",
     settings: "அமைப்புகள்",
     language: "மொழி",
-    enableDownload: "பதிவிறக்க பொத்தானை இயக்கு",
+    enableDownload: "பாப்அப் பொத்தானை இயக்கு",
+    enableInVideo: "வீடியோவின் கீழ் பொத்தானைக் காட்டு",
     downloadsDisabled: "அமைப்புகளில் பதிவிறக்கங்கள் முடக்கப்பட்டுள்ளன",
     activationKey: "செயல்படுத்தும் விசை",
     activate: "செயல்படுத்து",
@@ -64,46 +67,56 @@ const settingsScreen = document.getElementById('settingsScreen');
 const settingsLangSelect = document.getElementById('settingsLangSelect');
 const settingsTitle = document.querySelector('.settings-header h2');
 const languageLabel = document.querySelector('.setting-label');
+
 const enableDownloadToggle = document.getElementById('enableDownloadToggle');
 const enableDownloadLabel = document.querySelector('label[for="enableDownloadToggle"]');
+const showInVideoToggle = document.getElementById('showInVideoToggle');
+const showInVideoLabel = document.querySelector('label[for="showInVideoToggle"]');
+
 const activationKeyInput = document.getElementById('activationKey');
 const activateBtn = document.getElementById('activateBtn');
 const activationLabel = document.getElementById('activationLabel');
 const activatedAnimation = document.getElementById('activatedAnimation');
 const activationControls = document.getElementById('activationControls');
 const activationError = document.getElementById('activationError');
+const getKeyLink = document.getElementById('getKeyLink');
 
 let currentLang = 'en';
 let downloadEnabled = false;
+let showInVideo = false;
 let isActivated = false;
 
 function loadSettings() {
   if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.local) {
-    chrome.storage.local.get(['language', 'downloadEnabled', 'isActivated'], (result) => {
-      if (result.language) {
-        currentLang = result.language;
-      }
-      if (typeof result.downloadEnabled !== 'undefined') {
-        downloadEnabled = result.downloadEnabled;
-      }
-      if (typeof result.isActivated !== 'undefined') {
-        isActivated = result.isActivated;
-      }
+    chrome.storage.local.get(['language', 'downloadEnabled', 'showInVideoButton', 'isActivated'], (result) => {
+      if (result.language) currentLang = result.language;
+      if (typeof result.downloadEnabled !== 'undefined') downloadEnabled = result.downloadEnabled;
+      if (typeof result.showInVideoButton !== 'undefined') showInVideo = result.showInVideoButton;
+      if (typeof result.isActivated !== 'undefined') isActivated = result.isActivated;
       
       settingsLangSelect.value = currentLang;
       enableDownloadToggle.checked = downloadEnabled;
+      showInVideoToggle.checked = showInVideo;
+
       if (isActivated) {
         enableDownloadToggle.disabled = false;
+        showInVideoToggle.disabled = false;
         activationControls.style.display = 'none';
         if (activatedAnimation) activatedAnimation.style.display = 'inline-block';
         activationLabel.textContent = translations[currentLang].active || 'Active';
+        updateGetKeyLink();
+      } else {
+        enableDownloadToggle.disabled = true;
+        showInVideoToggle.disabled = true;
       }
       setLanguageStrings();
       updateDownloadButtonState();
+      updateGetKeyLink();
     });
   } else {
     setLanguageStrings();
     updateDownloadButtonState();
+    updateGetKeyLink();
   }
 }
 
@@ -112,6 +125,7 @@ function saveSettings() {
     chrome.storage.local.set({
       language: currentLang,
       downloadEnabled: downloadEnabled,
+      showInVideoButton: showInVideo,
       isActivated: isActivated
     });
   }
@@ -129,12 +143,15 @@ const setLanguageStrings = () => {
 
   if (settingsTitle) settingsTitle.textContent = t.settings;
   if (languageLabel) languageLabel.textContent = t.language;
+  
   if (enableDownloadLabel) enableDownloadLabel.textContent = t.enableDownload;
+  if (showInVideoLabel) showInVideoLabel.textContent = t.enableInVideo;
+
   if (activationKeyInput && activationKeyInput.placeholder) activationKeyInput.placeholder = t.activationKey;
   if (activateBtn) activateBtn.textContent = t.activate;
   if (activationLabel && !isActivated) activationLabel.textContent = t.activationKey;
 
-  if (!messageDiv.classList.contains('hidden')) {
+  if (!messageDiv.classList.contains('hidden') && (messageDiv.textContent === translations['en'].err || messageDiv.textContent === translations['si'].err || messageDiv.textContent === translations['ta'].err)) {
     messageDiv.textContent = t.err;
   }
 };
@@ -163,6 +180,11 @@ enableDownloadToggle.addEventListener('change', () => {
   saveSettings();
 });
 
+showInVideoToggle.addEventListener('change', () => {
+  showInVideo = showInVideoToggle.checked;
+  saveSettings();
+});
+
 const showActivationError = (text) => {
   if (!activationError) return;
   activationError.textContent = text;
@@ -172,6 +194,17 @@ const showActivationError = (text) => {
 const hideActivationError = () => {
   if (!activationError) return;
   activationError.classList.add('hidden');
+};
+
+const updateGetKeyLink = () => {
+  if (!getKeyLink) return;
+  if (isActivated) {
+    getKeyLink.classList.add('hidden');
+    getKeyLink.style.display = 'none';
+  } else {
+    getKeyLink.classList.remove('hidden');
+    getKeyLink.style.display = '';
+  }
 };
 
 activationKeyInput.addEventListener('input', () => {
@@ -187,10 +220,12 @@ activateBtn.addEventListener('click', () => {
     hideActivationError();
     isActivated = true;
     enableDownloadToggle.disabled = false;
+    showInVideoToggle.disabled = false;
     activationControls.style.display = 'none';
     if (activatedAnimation) activatedAnimation.style.display = 'inline-block';
     activationLabel.textContent = translations[currentLang].active || 'Active';
-    saveSettings();
+    updateGetKeyLink();
+      saveSettings();
     
     messageDiv.textContent = translations[currentLang].activated;
     messageDiv.classList.remove('hidden');
@@ -226,7 +261,7 @@ function isYouTubeVideo(url) {
     const host = u.host.toLowerCase();
     const pathname = u.pathname.toLowerCase();
     if (host.includes('youtube.com')) {
-      if (pathname.startsWith('/watch') || pathname.startsWith('/shorts') || pathname.startsWith('/embed')) return true;      // sometimes the query has v= param
+      if (pathname.startsWith('/watch') || pathname.startsWith('/shorts') || pathname.startsWith('/embed')) return true;
       if (u.searchParams && u.searchParams.get('v')) return true;
     }
     if (host === 'youtu.be') {
@@ -268,18 +303,6 @@ function updateDownloadButtonState() {
         downloadBtn.removeAttribute('disabled');
       }
     });
-  } else {
-    isYTVideoOnTab = false;
-    const shouldDisable = !downloadEnabled;
-    if (shouldDisable) {
-      downloadBtn.textContent = translations[lang].downloadsDisabled;
-      downloadBtn.classList.add('disabled');
-      downloadBtn.setAttribute('disabled', 'disabled');
-    } else {
-      downloadBtn.textContent = t.btnNoVideo || 'No YT video on current tab';
-      downloadBtn.classList.add('disabled');
-      downloadBtn.setAttribute('disabled', 'disabled');
-    }
   }
 }
 
