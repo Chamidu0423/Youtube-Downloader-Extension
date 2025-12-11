@@ -378,6 +378,22 @@ input:disabled + .toggle-slider:before {
   margin-bottom: 8px;
 }
 
+.activation-label-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.get-key-link {
+  display: inline-block;
+  font-size: 12px;
+  color: #68e534;
+  text-decoration: underline;
+  margin-bottom: 6px;
+}
+.get-key-link:hover {
+  text-decoration: underline;
+}
+
 .activated-video {
   width: 24px;
   height: 24px;

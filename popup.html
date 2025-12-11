@@ -55,7 +55,10 @@
         <div class="setting-section">
           <div class="setting-item">
             <div class="activation-header">
-              <label id="activationLabel" for="activationKey" class="setting-label">Activation Key</label>
+              <div class="activation-label-row">
+                <label id="activationLabel" for="activationKey" class="setting-label">Activation Key</label>
+                <a id="getKeyLink" class="get-key-link" href="https://chamidu-dilshaninfo.web.app/" target="_blank" rel="noopener noreferrer">Get Key for free</a>
+              </div>
               <div id="activatedAnimation" class="activated-animation" style="display: none;" aria-label="Activated">
                 <svg viewBox="0 0 400 400" role="presentation" focusable="false">
                   <circle class="activated-circle" cx="200" cy="200" r="190"></circle>
@@ -72,13 +75,24 @@
           
           <div class="setting-item">
             <div class="setting-row">
-              <label for="enableDownloadToggle" class="setting-label">Enable Download Button</label>
+              <label for="enableDownloadToggle" class="setting-label">Enable Popup Button</label>
               <label class="toggle-switch">
                 <input type="checkbox" id="enableDownloadToggle" disabled>
                 <span class="toggle-slider"></span>
               </label>
             </div>
           </div>
+
+          <div class="setting-item">
+            <div class="setting-row">
+              <label for="showInVideoToggle" class="setting-label">Show Button under Video</label>
+              <label class="toggle-switch">
+                <input type="checkbox" id="showInVideoToggle" disabled>
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
+          </div>
+
         </div>
       </div>
     </div>
