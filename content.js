@@ -13,7 +13,6 @@ function injectDownloadButton() {
         isInjecting = false;
 
         if (buttonsContainer.querySelector('#nalgeon-download-btn')) return;
-
         if (!result.isActivated || !result.showInVideoButton) return;
 
         const newBtn = document.createElement('a');
@@ -53,6 +52,32 @@ function injectDownloadButton() {
         });
 
         buttonsContainer.appendChild(newBtn);
+
+        setTimeout(() => {
+            const btnRect = newBtn.getBoundingClientRect();
+            
+            if (btnRect.width === 0 || btnRect.height === 0) return;
+
+            const gifImage = document.createElement('img');
+            gifImage.src = chrome.runtime.getURL('banner-tooltip.gif');
+            gifImage.className = 'nalgeon-floating-gif';
+
+            const absoluteTop = btnRect.top + window.scrollY - 25; 
+            
+            const absoluteLeft = btnRect.left + window.scrollX + (btnRect.width / 2) + 5;
+
+            gifImage.style.top = `${absoluteTop}px`;
+            gifImage.style.left = `${absoluteLeft}px`;
+
+            document.body.appendChild(gifImage);
+
+            setTimeout(() => {
+                if (gifImage && gifImage.parentNode) {
+                    gifImage.parentNode.removeChild(gifImage);
+                }
+            }, 2500);
+
+        }, 100);
     });
 }
 

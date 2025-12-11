@@ -42,16 +42,12 @@ ytd-menu-service-item-download-renderer,
     left: 50%;
     width: 200%;
     height: 500%;
-    
     background: conic-gradient(
-        #3363ff, #2747ff, #3ad4ff
+        #2747ff, #3363ff, #3ad4ff, #3363ff
     );
-    
-
     animation: 
         spin-rainbow 2s linear infinite, 
         fade-out-border 0.5s 2s forwards; 
-        
     z-index: -2;
     opacity: 1;
 }
@@ -59,49 +55,42 @@ ytd-menu-service-item-download-renderer,
 #nalgeon-download-btn::after {
     content: "";
     position: absolute;
-    top: 1px; 
-    bottom: 1px; 
-    left: 1px; 
-    right: 1px;
-    
+    top: 1px; bottom: 1px; left: 1px; right: 1px;
     background-color: #f2f2f2; 
-    
     border-radius: 17px;
     z-index: -1;
 }
 
 #nalgeon-download-btn span,
 #nalgeon-download-btn svg {
-    position: relative;
-    z-index: 1;
+    position: relative; z-index: 1;
 }
 
-#nalgeon-download-btn:hover::after {
-    background-color: #e5e5e5;
-}
+#nalgeon-download-btn:hover::after { background-color: #e5e5e5; }
 
 #nalgeon-download-btn svg {
-    margin-right: 6px;
-    width: 24px;
-    height: 24px;
-    fill: currentColor;
+    margin-right: 6px; width: 24px; height: 24px;
+    fill: currentColor; pointer-events: none; display: block;
+}
+
+#nalgeon-download-btn span { display: inline-block; margin-top: -1px; }
+
+html[dark] #nalgeon-download-btn { color: #f1f1f1; }
+html[dark] #nalgeon-download-btn::after { background-color: #222222; }
+html[dark] #nalgeon-download-btn:hover::after { background-color: #303030; }
+
+.nalgeon-floating-gif {
+    position: absolute;
+    z-index: 999999 !important;
+    height: 28px;
+    width: auto;
     pointer-events: none;
-    display: block;
+    
+    opacity: 1;
+    animation: fadeOutGifBody 0.5s 2s forwards;
 }
 
-#nalgeon-download-btn span {
-    display: inline-block;
-    margin-top: -1px;
-}
-
-html[dark] #nalgeon-download-btn {
-    color: #f1f1f1;
-}
-
-html[dark] #nalgeon-download-btn::after {
-    background-color: #222222; 
-}
-
-html[dark] #nalgeon-download-btn:hover::after {
-    background-color: #303030;
+@keyframes fadeOutGifBody {
+    0% { opacity: 1; }
+    100% { opacity: 0; }
 }
