@@ -3,27 +3,44 @@
   "name": "Nalgeon YT Saver",
   "version": "1.0",
   "description": "Download YouTube videos easily.",
-  "permissions": ["activeTab", "storage"],
-  
-  "icons": { 
+  "permissions": [
+    "activeTab",
+    "storage"
+  ],
+  "icons": {
     "16": "icon.png",
     "48": "icon.png",
     "128": "icon.png"
   },
-
   "action": {
     "default_popup": "popup.html",
     "default_icon": {
-      "16": "icon.png", 
+      "16": "icon.png",
       "48": "icon.png",
       "128": "icon.png"
     }
   },
   "content_scripts": [
     {
-      "matches": ["*://www.youtube.com/*"],
-      "css": ["content.css"],
-      "js": ["content.js"]
+      "matches": [
+        "*://www.youtube.com/*"
+      ],
+      "css": [
+        "content.css"
+      ],
+      "js": [
+        "content.js"
+      ]
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "banner-tooltip.gif"
+      ],
+      "matches": [
+        "*://www.youtube.com/*"
+      ]
     }
   ]
 }
