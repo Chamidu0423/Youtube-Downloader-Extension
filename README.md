@@ -25,6 +25,12 @@ Download YouTube videos easily.
 <img src="guide/3.gif" alt="IOS Calculator Icon">
 </p>
 
+---
+
+Get Free Activation Key: https://nalgeon-keys.web.app/
+
+---
+
 
 ## Contact
 If you need help or want to contact the developer, visit: https://chamidu-dilshaninfo.web.app/
