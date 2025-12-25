@@ -19,8 +19,7 @@ ytd-menu-service-item-download-renderer,
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    background: transparent;
-    color: var(--yt-spec-text-primary, #0f0f0f);
+    color: var(--yt-spec-text-primary, #7c7c7c);
     height: 36px;
     padding: 0 16px;
     margin-left: 8px;
@@ -98,8 +97,8 @@ ytd-menu-service-item-download-renderer,
 #nalgeon-download-btn span { display: inline-block; margin-top: -1px; }
 
 html[dark] #nalgeon-download-btn { color: #f1f1f1; }
-html[dark] #nalgeon-download-btn::after { background-color: #222222; }
-html[dark] #nalgeon-download-btn:hover::after { background-color: #303030; }
+html[dark] #nalgeon-download-btn::after { background-color: #373737; }
+html[dark] #nalgeon-download-btn:hover::after { background-color: #4a4a4a; }
 
 .nalgeon-floating-gif {
     position: absolute;
